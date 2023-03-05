@@ -27,7 +27,7 @@ class Language
       @raw.is_a?(String)
     end
 
-    def as_s : String
+    def as_s
       @raw.as(String)
     end
 
@@ -35,7 +35,7 @@ class Language
       @raw.is_a?(Array(Output))
     end
 
-    def as_a : Array(Output)
+    def as_a
       @raw.as(Array(Output))
     end
 
@@ -43,7 +43,7 @@ class Language
       @raw.is_a?(Hash(Symbol, Output))
     end
 
-    def as_h : Hash(Symbol, Output)
+    def as_h
       @raw.as(Hash(Symbol, Output))
     end
 
@@ -67,7 +67,7 @@ class Language
       raw.inspect(io)
     end
 
-    def []=(key : Symbol, value : Output)
+    def []=(key, value)
       case @raw
       when Nil
         @raw = {key => value}
@@ -80,7 +80,33 @@ class Language
       end
     end
 
-    def merge(other : Output)
+    def [](key)
+      case @raw
+      when Nil
+        Output.new(nil)
+      when String
+        Output.new(nil)
+      when Array(Output)
+        Output.new(nil)
+      when Hash(Symbol, Output)
+        @raw.as(Hash(Symbol, Output))[key]
+      end
+    end
+
+    def fetch(key, value)
+      case @raw
+      when Nil
+        Output.new(nil)
+      when String
+        Output.new(nil)
+      when Array(Output)
+        Output.new(nil)
+      when Hash(Symbol, Output)
+        @raw.as(Hash(Symbol, Output)).fetch(key, value)
+      end
+    end
+
+    def merge(other)
       case @raw
       when Nil
         @raw = other.raw

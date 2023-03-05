@@ -1,0 +1,5 @@
+#!/usr/bin/env crystal
+
+require "../src/code/parser"
+
+pp Code::Parser.parse(ARGV[0])

@@ -2,7 +2,7 @@ class Code
   class Parser
     class ChainedCall < Operation
       def statement
-        String
+        Call
       end
 
       def dot

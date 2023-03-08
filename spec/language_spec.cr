@@ -35,7 +35,7 @@ describe Language do
 
   context "calls" do
     it "parses first_name" do
-      Code::Parser.parse("first_name").should eq([{:call => {:name => "first_name"}}])
+      Code::Parser.parse("first_name").should eq([{:name => "first_name"}])
     end
 
     it "parses puts(user)" do
@@ -48,6 +48,90 @@ describe Language do
 
     it "parses users.each do |user| puts(user) end" do
       Code::Parser.parse("users.each do |user| puts(user) end")
+    end
+  end
+
+  context "operations" do
+    it "parses 1 + 1" do
+      Code::Parser.parse("1 + 1")
+    end
+
+    it "parses 1 - 1" do
+      Code::Parser.parse("1 - 1")
+    end
+
+    it "parses 2 ** 2" do
+      Code::Parser.parse("2 ** 2")
+    end
+  end
+
+  context "groups" do
+    it "parses 2 * (1 + 1)" do
+      Code::Parser.parse("2 * (1 + 1)")
+    end
+
+    it "parses (1 + 1) * 2" do
+      Code::Parser.parse("(1 + 1) * 2")
+    end
+  end
+
+  context "booleans" do
+    it "parses true" do
+      Code::Parser.parse("true")
+    end
+  end
+
+  context "lists" do
+    it "parses []" do
+      Code::Parser.parse("[]")
+    end
+
+    it "parses [1]" do
+      Code::Parser.parse("[1]")
+    end
+
+    it "parses [1, 2, 3]" do
+      Code::Parser.parse("[1, 2, 3]")
+    end
+  end
+
+  context "dictionnaries" do
+    it "parses {}" do
+      Code::Parser.parse("{}")
+    end
+
+    it "parses {a:1}" do
+      Code::Parser.parse("{a:1}")
+    end
+
+    it "parses { a: 1, b: 2 }" do
+      Code::Parser.parse("{ a: 1, b: 2 }")
+    end
+  end
+
+  context "negations" do
+    it "parses !true" do
+      Code::Parser.parse("!true").should eq(
+        [{:negation => {:operator => "!", :right => {:boolean => "true"}}}]
+      )
+    end
+  end
+
+  context "power" do
+    it "parses 2 ** 3" do
+      Code::Parser.parse("2 ** 3")
+    end
+  end
+
+  context "unary minus" do
+    it "parses -1" do
+      Code::Parser.parse("-1")
+    end
+  end
+
+  context "ternary" do
+    it "parses true ? 1 : 2" do
+      Code::Parser.parse("true ? 1 : 2")
     end
   end
 end

@@ -2,7 +2,7 @@ class Code
   class Parser
     class Statement < Language
       def root
-        Splat
+        Equality
       end
     end
   end

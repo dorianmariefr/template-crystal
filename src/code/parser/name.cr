@@ -65,6 +65,62 @@ class Code
         str("&")
       end
 
+      def plus
+        str("+")
+      end
+
+      def minus
+        str("-")
+      end
+
+      def asterisk
+        str("*")
+      end
+
+      def exclamation_point
+        str("!")
+      end
+
+      def hashtag
+        str("#")
+      end
+
+      def percent
+        str("%")
+      end
+
+      def caret
+        str("^")
+      end
+
+      def semicolon
+        str(";")
+      end
+
+      def greater
+        str(">")
+      end
+
+      def lesser
+        str("<")
+      end
+
+      def question_mark
+        str("?")
+      end
+
+      def slash
+        str("/")
+      end
+
+      def backtick
+        str("`")
+      end
+
+      def tilde
+        str("~")
+      end
+
       def do_keyword
         str("do")
       end
@@ -81,11 +137,22 @@ class Code
         str("else")
       end
 
+      def rescue_keyword
+        str("rescue")
+      end
+
+      def ensure_keyword
+        str("ensure")
+      end
+
       def special_character
         ampersand | equal | pipe | dot | colon | comma | space | newline |
           opening_curly_bracket | closing_curly_bracket | opening_parenthesis |
           closing_parenthesis | opening_square_bracket |
-          closing_square_bracket | single_quote | double_quote
+          closing_square_bracket | single_quote | double_quote |
+          plus | minus | asterisk | exclamation_point | hashtag |
+          percent | caret | semicolon | greater | lesser |
+          question_mark | slash | backtick | tilde
       end
 
       def character
@@ -100,9 +167,12 @@ class Code
         (do_keyword << separator).absent <<
           (else_keyword << separator).absent <<
           (elsif_keyword << separator).absent <<
-          (end_keyword << separator).absent << character.repeat(1)
+          (end_keyword << separator).absent <<
+          (rescue_keyword << separator).absent <<
+          (ensure_keyword << separator).absent <<
+          character.repeat(1) <<
+          (question_mark | exclamation_point).maybe
       end
     end
   end
 end
-

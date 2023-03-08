@@ -1,5 +1,21 @@
 class Language
   class Atom
+    class Debug < Atom
+      def initialize(parent : Atom | Language | Language.class)
+        @parent = parent
+      end
+
+      def parse(parser)
+        @parent.parse(parser)
+        puts "Output: #{parser.output}"
+        puts "Buffer: #{parser.buffer}"
+      end
+
+      def to_s(io)
+        "#{@parent}.debug".to_s(io)
+      end
+    end
+
     class Any < Atom
       def parse(parser)
         parser.consume(1)
@@ -94,6 +110,27 @@ class Language
       end
     end
 
+    class Match < Atom
+      def initialize(pattern : Regex)
+        @pattern = pattern
+      end
+
+      def parse(parser)
+        input = parser.input[parser.cursor..]
+        match = @pattern.match(input)
+
+        if match
+          parser.consume(match[0].size)
+        else
+          raise Parser::Match::NotFound.new(parser, @pattern)
+        end
+      end
+
+      def to_s(io)
+        "str(#{@string.inspect})".to_s(io)
+      end
+    end
+
     class Absent < Atom
       def initialize(parent : Atom | Language | Language.class)
         @parent = parent
@@ -157,8 +194,9 @@ class Language
         @parent.parse(clone)
       rescue Parser::Interuption
       else
+        parser.buffer = clone.buffer
         parser.cursor = clone.cursor
-        parser.output = clone.output
+        parser.output.merge(clone.output)
       end
 
       def to_s(io)
@@ -305,8 +343,8 @@ class Language
       Then.new(parent: self, block: block)
     end
 
-    def rule(name)
-      Rule.new(name: name)
+    def debug
+      Debug.new(parent: self)
     end
 
     def parse(parser)

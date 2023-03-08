@@ -13,6 +13,10 @@ class Code
         Statement
       end
 
+      def function
+        Function
+      end
+
       def name
         Name
       end
@@ -94,10 +98,10 @@ class Code
       def arguments
         (
           whitespace? <<
-          (
-            keyword_argument.aka(:keyword_argument) |
-              positional_argument.aka(:positional_argument)
-          ) <<
+            (
+              keyword_argument.aka(:keyword_argument) |
+                positional_argument.aka(:positional_argument)
+            ) <<
             whitespace? <<
             comma.maybe
         ).repeat(1)
@@ -116,10 +120,10 @@ class Code
       def parameters
         (
           whitespace? <<
-          (
-            keyword_parameter.aka(:keyword_parameter) |
-            positional_parameter.aka(:positional_parameter)
-          ) <<
+            (
+              keyword_parameter.aka(:keyword_parameter) |
+                positional_parameter.aka(:positional_parameter)
+            ) <<
             whitespace? <<
             comma.maybe
         ).repeat(1)
@@ -127,9 +131,15 @@ class Code
 
       def rescue_block
         rescue_keyword <<
-          whitespace? <<
-          statement.aka(:statement) <<
-          (whitespace? << equal << greater << whitespace? << statement.aka(:error)) <<
+          (
+            whitespace? <<
+            statement.aka(:class) <<
+              whitespace? <<
+              equal <<
+              greater <<
+              whitespace? <<
+              statement.aka(:error)
+          ).maybe <<
           code.aka(:body)
       end
 
@@ -146,8 +156,8 @@ class Code
       def exception_blocks
         (
           rescue_block.aka(:rescue) |
-          else_block.aka(:else) |
-          ensure_block.aka(:ensure)
+            else_block.aka(:else) |
+            ensure_block.aka(:ensure)
         ).repeat(1)
       end
 
@@ -156,10 +166,10 @@ class Code
           whitespace? <<
           (
             pipe <<
-            whitespace? <<
-            parameters.aka(:parameters) <<
-            whitespace? <<
-            pipe.maybe
+              whitespace? <<
+              parameters.aka(:parameters) <<
+              whitespace? <<
+              pipe.maybe
           ).maybe <<
           code.aka(:body) <<
           exception_blocks.aka(:exceptions).maybe <<
@@ -171,10 +181,10 @@ class Code
           whitespace? <<
           (
             pipe <<
-            whitespace? <<
-            parameters.aka(:parameters) <<
-            whitespace? <<
-            pipe.maybe
+              whitespace? <<
+              parameters.aka(:parameters) <<
+              whitespace? <<
+              pipe.maybe
           ).maybe <<
           code.aka(:body) <<
           exception_blocks.aka(:exceptions).maybe <<
@@ -183,18 +193,41 @@ class Code
 
       def root
         (
-          name.aka(:name) << (
-            whitespace? <<
-            opening_parenthesis <<
-            whitespace? <<
-            arguments.aka(:arguments) <<
-            whitespace? <<
-            closing_parenthesis.maybe
-          ).maybe << (
-            whitespace? <<
-            (do_end_block | curly_block)
-          ).repeat(1).aka(:blocks).maybe
-        ).aka(:call)
+          function.aka(:left) << (
+            (
+              (
+                whitespace? <<
+                opening_parenthesis <<
+                whitespace? <<
+                arguments.aka(:arguments) <<
+                whitespace? <<
+                closing_parenthesis.maybe
+              ) << (
+                whitespace? <<
+                (do_end_block | curly_block)
+              ).repeat(1).aka(:blocks).maybe
+            ) |
+            (
+              (
+                whitespace? <<
+                opening_parenthesis <<
+                whitespace? <<
+                arguments.aka(:arguments) <<
+                whitespace? <<
+                closing_parenthesis.maybe
+              ).maybe << (
+                whitespace? <<
+                (do_end_block | curly_block)
+              ).repeat(1).aka(:blocks)
+            )
+          ).repeat(1).aka(:arguments_and_blocks).maybe
+        ).aka(:call).then do |output|
+          if output[:call].not_nil!.fetch(:arguments_and_blocks, nil)
+            output
+          else
+            output[:call].not_nil![:left].not_nil!
+          end
+        end
       end
     end
   end

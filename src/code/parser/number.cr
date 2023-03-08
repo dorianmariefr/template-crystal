@@ -135,7 +135,7 @@ class Code
           base_8_number.aka(:base_8) |
           base_2_number.aka(:base_2) |
           base_10_decimal.aka(:decimal) |
-          base_10_number.aka(:base_10)).aka(:number) | Nothing
+          base_10_number.aka(:base_10)).aka(:number) | Boolean
       end
     end
   end

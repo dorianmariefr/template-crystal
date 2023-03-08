@@ -56,6 +56,19 @@ class Language
       end
     end
 
+    class Match
+      class NotFound < Interuption
+        def initialize(parser : Parser, pattern : Regex)
+          @parser = parser
+          @pattern = pattern
+        end
+
+        def message
+          "#{@pattern} not found\n#{super}"
+        end
+      end
+    end
+
     property root : Atom | Language | Language.class
     property input : String
     property cursor : Int32
@@ -98,7 +111,7 @@ class Language
       end
     end
 
-    def next?(string)
+    def next?(string : String)
       @input[@cursor...(@cursor + string.size)] == string
     end
 

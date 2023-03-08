@@ -20,9 +20,9 @@ class Code
       def root
         (
           ampersand.aka(:operator) <<
-          whitespace? <<
-          splat.aka(:right)
-        ).aka(:splat) | ChainedCall
+            whitespace? <<
+            splat.aka(:right)
+        ).aka(:splat) | Rescue
       end
     end
   end

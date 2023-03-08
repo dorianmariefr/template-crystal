@@ -19,7 +19,7 @@ class Code
 
       def root
         (nothing_keyword | nil_keyword | null_keyword | undefined_keyword).aka(:nothing) |
-          Call
+          Group
       end
     end
   end

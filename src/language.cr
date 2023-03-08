@@ -45,6 +45,10 @@ class Language
     Atom::Then.new(parent: new, block: block)
   end
 
+  def self.debug
+    Atom::Debug.new(parent: new)
+  end
+
   def parse(input_or_parser)
     if input_or_parser.is_a?(Parser)
       parser = input_or_parser
@@ -78,6 +82,10 @@ class Language
 
   def any
     Atom::Any.new
+  end
+
+  def match(pattern)
+    Atom::Match.new(pattern: pattern)
   end
 
   def to_s(io)

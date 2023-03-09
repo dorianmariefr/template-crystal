@@ -49,27 +49,25 @@ class Language
     Atom::Debug.new(parent: new)
   end
 
-  def parse(input_or_parser)
-    if input_or_parser.is_a?(Parser)
-      parser = input_or_parser
-      clone =
-        Parser.new(
-          root: root,
-          input: parser.input,
-          cursor: parser.cursor,
-          buffer: parser.buffer,
-          output: parser.output
-        )
+  def parse(parser : Parser)
+    clone =
+      Parser.new(
+        root: root,
+        input: parser.input,
+        cursor: parser.cursor,
+        buffer: parser.buffer,
+        output: parser.output
+      )
 
-      clone.parse(check_end_of_input: false)
+    clone.parse(check_end_of_input: false)
 
-      parser.cursor = clone.cursor
-      parser.buffer = clone.buffer
-      parser.output = clone.output
-    else
-      input = input_or_parser
-      Parser.new(root: root, input: input).parse
-    end
+    parser.cursor = clone.cursor
+    parser.buffer = clone.buffer
+    parser.output = clone.output
+  end
+
+  def parse(input : String)
+    Parser.new(root: root, input: input).parse
   end
 
   def root

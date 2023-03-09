@@ -211,8 +211,11 @@ class Language
       end
 
       def parse(parser)
-        clone =
-          Parser.new(root: self, input: parser.input, cursor: parser.cursor)
+        clone = Parser.new(
+          root: self,
+          input: parser.input,
+          cursor: parser.cursor
+        )
 
         @parent.parse(clone)
 

@@ -2,10 +2,10 @@
 - Statement
 - Equality
 - Splat
-  - Class
-  - While
-  - If
-  - IfModifier
+- Class
+- While
+- If
+- IfModifier
 - OrKeyword
 - NotKeyword
 - Equal

@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+
+for f in docs/**/*.code
+  echo $f
+  bin/code $f
+end

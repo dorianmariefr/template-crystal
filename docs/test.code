@@ -1,0 +1,4 @@
+times.each do |time|
+  if (1.day.from_now...(1.day.from_now + 1.hour)).include?(time)
+  end
+end

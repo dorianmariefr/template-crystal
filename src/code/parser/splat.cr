@@ -22,7 +22,7 @@ class Code
           ampersand.aka(:operator) <<
             whitespace? <<
             splat.aka(:right)
-        ).aka(:splat) | Rescue
+        ).aka(:splat) | Equal
       end
     end
   end

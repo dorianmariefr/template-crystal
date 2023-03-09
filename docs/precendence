@@ -8,8 +8,8 @@
   - IfModifier
   - OrKeyword
   - NotKeyword
-  - Equal
-  - Rescue
+- Equal
+- Rescue
 - Ternary
 - Range
 - OrOperator

@@ -127,7 +127,7 @@ class Language
       end
 
       def to_s(io)
-        "str(#{@string.inspect})".to_s(io)
+        "match(#{@pattern.inspect})".to_s(io)
       end
     end
 

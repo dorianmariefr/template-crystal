@@ -36,12 +36,11 @@ class Code
                 ).maybe
             ).maybe
         )
-          .aka(:ternary)
           .then do |output|
-            if output[:ternary].not_nil!.fetch(:middle, nil)
-              output
+            if output.fetch(:middle, nil)
+              Output.new({:ternary => output})
             else
-              output[:ternary].not_nil![:left].not_nil!
+              output[:left].not_nil!
             end
           end
       end

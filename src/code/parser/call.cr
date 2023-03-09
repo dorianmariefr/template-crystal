@@ -221,11 +221,11 @@ class Code
               ).repeat(1).aka(:blocks)
             )
           ).repeat(1).aka(:arguments_and_blocks).maybe
-        ).aka(:call).then do |output|
-          if output[:call].not_nil!.fetch(:arguments_and_blocks, nil)
-            output
+        ).then do |output|
+          if output.fetch(:arguments_and_blocks, nil)
+            Output.new({:call => output})
           else
-            output[:call].not_nil![:left].not_nil!
+            output[:left].not_nil!
           end
         end
       end

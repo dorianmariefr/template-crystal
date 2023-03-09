@@ -84,11 +84,11 @@ class Code
                 whitespace? <<
                 equal_class.aka(:right)
             ).maybe
-        ).aka(:equal).then do |output|
-          if output[:equal].not_nil!.fetch(:right, nil)
-            output
+        ).then do |output|
+          if output.fetch(:right, nil)
+            Output.new({:equal => output})
           else
-            output[:equal].not_nil![:left].not_nil!
+            output[:left].not_nil!
           end
         end
       end

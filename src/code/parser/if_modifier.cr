@@ -47,12 +47,11 @@ class Code
                 if_modifier.aka(:right)
             ).maybe
         )
-          .aka(:if_modifier)
           .then do |output|
-            if output[:if_modifier].not_nil!.fetch(:right, nil)
-              output
+            if output.fetch(:right, nil)
+              Output.new({:if_modifier => output})
             else
-              output[:if_modifier].not_nil![:left].not_nil!
+              output[:left].not_nil!
             end
           end
       end

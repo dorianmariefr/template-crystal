@@ -25,12 +25,11 @@ class Code
                 statement.aka(:statement)
             ).repeat(1).aka(:others).maybe
         )
-          .aka(:operation)
           .then do |output|
-            if output[:operation].not_nil!.fetch(:others, nil)
-              output
+            if output.fetch(:others, nil)
+              Output.new({:operation => output})
             else
-              output[:operation].not_nil![:first].not_nil!
+              output[:first].not_nil!
             end
           end
       end

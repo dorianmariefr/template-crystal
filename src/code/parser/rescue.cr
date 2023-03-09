@@ -56,12 +56,11 @@ class Code
                 rescue_class.aka(:right)
             ).maybe
         )
-          .aka(:rescue)
           .then do |output|
-            if output[:rescue].not_nil!.fetch(:right, nil)
-              output
+            if output.fetch(:right, nil)
+              Output.new({:rescue => output})
             else
-              output[:rescue].not_nil![:left].not_nil!
+              output[:left].not_nil!
             end
           end
       end

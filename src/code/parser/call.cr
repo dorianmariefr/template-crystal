@@ -133,7 +133,7 @@ class Code
         rescue_keyword <<
           (
             whitespace? <<
-            statement.aka(:class) <<
+              statement.aka(:class) <<
               whitespace? <<
               equal <<
               greater <<

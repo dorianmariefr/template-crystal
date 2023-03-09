@@ -6,8 +6,8 @@
   - While
   - If
   - IfModifier
-  - OrKeyword
-  - NotKeyword
+- OrKeyword
+- NotKeyword
 - Equal
 - Rescue
 - Ternary

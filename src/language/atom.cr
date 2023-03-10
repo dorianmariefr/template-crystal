@@ -7,8 +7,8 @@ class Language
 
       def parse(parser)
         @parent.parse(parser)
-        puts "Output: #{parser.output}"
-        puts "Buffer: #{parser.buffer}"
+        pp! parser.output.to_s
+        pp! parser.buffer
       end
 
       def to_s(io)

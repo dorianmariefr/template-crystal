@@ -2,4 +2,4 @@
 
 set -e
 
-crystal build bin/code.cr -o bin/code
+crystal build bin/code.cr -o bin/code --release
